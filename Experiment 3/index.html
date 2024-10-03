@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            color: #4CAF50;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 5px;
+            text-align: center;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        .button-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            flex: 1;
+            box-sizing: border-box;
+        }
+
+        .button-container button:hover {
+            background-color: #45a049;
+        }
+
+        .button_add {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .button_add:hover {
+            background-color: #45a049;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-section">
+    <h2>Add Employee</h2>
+    <form id="employeeForm">
+        <label for="emp_id">Emp ID:</label>
+        <input type="text" id="emp_id" name="emp_id">
+        
+        <label for="emp_name">Emp Name:</label>
+        <input type="text" id="emp_name" name="emp_name">
+        
+        <label for="emp_phone">Emp Phone:</label>
+        <input type="text" id="emp_phone" name="emp_phone">
+        
+        <label for="emp_job">Emp Job:</label>
+        <input type="text" id="emp_job" name="emp_job">
+        
+        <label for="emp_salary">Emp Salary:</label>
+        <input type="number" id="emp_salary" name="emp_salary">
+        
+        <button type="button" class="button_add" onclick="addEmployee()">Add Employee</button>
+    </form>
+</div>
+
+<div class="form-section">
+    <h2>Admin Panel</h2>
+    <form id="adminForm">
+        <label for="admin_id">Emp ID:</label>
+        <input type="text" id="admin_id" name="admin_id">
+        
+        <div class="button-container">
+            <button type="button" onclick="readEmployee()">Read Employee</button>
+            <button type="button" onclick="updateEmployee()">Update Employee</button>
+            <button type="button" onclick="deleteEmployee()">Delete Employee</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    async function addEmployee() {
+        const empId = document.getElementById('emp_id').value;
+        const empName = document.getElementById('emp_name').value;
+        const empPhone = document.getElementById('emp_phone').value;
+        const empJob = document.getElementById('emp_job').value;
+        const empSalary = document.getElementById('emp_salary').value;
+
+        const employee = {
+            emp_id: empId,
+            emp_name: empName,
+            emp_phone: empPhone,
+            emp_job: empJob,
+            emp_salary: empSalary
+        };
+
+        const response = await fetch('/employees', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(employee)
+        });
+
+        if (response.ok) {
+            alert('Employee added successfully!');
+            document.getElementById('employeeForm').reset();
+        } else {
+            alert('Failed to add employee');
+        }
+    }
+
+    async function readEmployee() {
+        const empId = document.getElementById('admin_id').value;
+        const response = await fetch('/employees');
+        const employees = await response.json();
+        const employee = employees.find(emp => emp.emp_id === empId);
+
+        if (employee) {
+            alert(`Employee Found:\nID: ${employee.emp_id}\nName: ${employee.emp_name}\nPhone: ${employee.emp_phone}\nJob: ${employee.emp_job}\nSalary: ${employee.emp_salary}`);
+        } else {
+            alert('Employee not found!');
+        }
+    }
+
+    async function updateEmployee() {
+        const empId = document.getElementById('admin_id').value;
+        const response = await fetch('/employees');
+        const employees = await response.json();
+        const employee = employees.find(emp => emp.emp_id === empId);
+
+        if (employee) {
+            const empName = prompt('Enter new name:', employee.emp_name);
+            const empPhone = prompt('Enter new phone:', employee.emp_phone);
+            const empJob = prompt('Enter new job:', employee.emp_job);
+            const empSalary = prompt('Enter new salary:', employee.emp_salary);
+
+            const updatedEmployee = {
+                emp_id: empId,
+                emp_name: empName,
+                emp_phone: empPhone,
+                emp_job: empJob,
+                emp_salary: empSalary
+            };
+
+            const updateResponse = await fetch(`/employees/${empId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedEmployee)
+            });
+
+            if (updateResponse.ok) {
+                alert('Employee updated successfully!');
+            } else {
+                alert('Failed to update employee');
+            }
+        } else {
+            alert('Employee not found!');
+        }
+    }
+
+    async function deleteEmployee() {
+        const empId = document.getElementById('admin_id').value;
+
+        const deleteResponse = await fetch(`/employees/${empId}`, {
+            method: 'DELETE'
+        });
+
+        if (deleteResponse.ok) {
+            alert('Employee deleted successfully!');
+        } else {
+            alert('Failed to delete employee');
+        }
+    }
+</script>
+
+</body>
+</html>
