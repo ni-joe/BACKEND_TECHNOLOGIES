@@ -1,0 +1,1 @@
+{"emp_id":"001","emp_name":"JOE","emp_phone":"9865327845","emp_job":"Data Analyst","emp_salary":"85000"}

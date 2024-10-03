@@ -1,0 +1,127 @@
+<!DOCTYPE html>         
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN FORM</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7e9; /* Light green background */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            text-align: left;
+        }
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+        button, input[type="submit"] {
+            background-color: #28a745; /* Green background */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover, input[type="submit"]:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+        .link {
+            display: block;
+            margin: 10px 0;
+            color: #28a745;
+            text-decoration: none;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LOGIN FORM -->
+    <div class="container" id="loginForm">
+        <h2>Login</h2>
+        <form action="#">
+            <label for="username">Username:</label>
+            <input type="text" id="username" placeholder="Username" name="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Password" name="password" required>
+            <input type="submit" value="Login">
+        </form>
+        <a href="#forgotPasswordForm" class="link">Forgot Password?</a>
+        <a href="#signupForm" class="link">Sign Up</a>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div class="container" id="signupForm" style="display: none;">
+        <h2>Sign Up</h2>
+        <form action="#">
+            <label for="signupUsername">Username:</label>
+            <input type="text" id="signupUsername" placeholder="Username" name="username" required>
+            <label for="signupEmail">Email:</label>
+            <input type="email" id="signupEmail" placeholder="Email" name="email" required>
+            <label for="signupPassword">Password:</label>
+            <input type="password" id="signupPassword" placeholder="Password" name="password" required>
+            <label for="signupConfirmPassword">Confirm Password:</label>
+            <input type="password" id="signupConfirmPassword" placeholder="Confirm Password" name="confirm_password" required>
+            <input type="submit" value="Sign Up">
+        </form>
+        <a href="#loginForm" class="link">Already have an account? Login</a>
+    </div>
+
+    <!-- FORGOT PASSWORD FORM -->
+    <div class="container" id="forgotPasswordForm" style="display: none;">
+        <h2>Forgot Password</h2>
+        <form action="#">
+            <label for="forgotEmail">Email:</label>
+            <input type="email" id="forgotEmail" placeholder="Enter your email" name="email" required>
+            <input type="submit" value="Reset Password">
+        </form>
+        <a href="#loginForm" class="link">Back to Login</a>
+    </div>
+
+    <script>
+        // JavaScript to toggle between forms
+        document.querySelectorAll('.link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.container').forEach(container => {
+                    container.style.display = 'none';
+                });
+                const targetForm = document.querySelector(link.getAttribute('href'));
+                targetForm.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

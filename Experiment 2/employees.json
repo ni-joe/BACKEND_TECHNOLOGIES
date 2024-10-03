@@ -1,0 +1,16 @@
+[
+  {
+    "emp_id": "001",
+    "emp_name": "JOE",
+    "emp_phone": "09988776655",
+    "emp_job": "Data Analyst",
+    "emp_salary": "80000"
+  },
+  {
+    "emp_id": "002",
+    "emp_name": "JOY",
+    "emp_phone": "09887665443",
+    "emp_job": "Software_Developer",
+    "emp_salary": "100000"
+  }
+]
